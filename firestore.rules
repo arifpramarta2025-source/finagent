@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwnerAccount() {
+      return isSignedIn()
+        && request.auth.token.email == 'pemilik@example.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    // Keep this list in step with src/utils/members.ts.
+    function isMember() {
+      return isSignedIn()
+        && request.auth.token.email in [
+          'pemilik@example.com',
+          'pasangan@example.com'
+        ]
+        && request.auth.token.email_verified == true;
+    }
+
+    // Each person's Finn chat stays private. Other settings are shared.
+    function canAccessSetting(settingId) {
+      return settingId == 'chat' ? isOwnerAccount()
+        : settingId.matches('^chat_.*$') ? settingId == 'chat_' + request.auth.uid
+        : true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Tells a member which account holds the shared ledger. Set once, by the owner only.
+    match /ledger/main {
+      allow read: if isMember();
+      allow create: if isOwnerAccount() && request.resource.data.ownerUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // The ledger, shared by both members
+    match /users/{userId} {
+      allow get: if isMember() && isValidId(userId);
+      allow create, update: if isMember() && isValidId(userId);
+      allow delete: if false;
+
+      // Subcollection for financial transactions
+      match /transactions/{transactionId} {
+        allow read: if isMember();
+        allow create: if isMember()
+          && isValidId(transactionId)
+          && request.resource.data.userId == userId;
+        allow update: if isMember()
+          && isValidId(transactionId)
+          && request.resource.data.userId == userId;
+        allow delete: if isMember()
+          && isValidId(transactionId);
+      }
+
+      // Append-only history. Nobody can rewrite it or write under another name.
+      match /activity/{activityId} {
+        allow read: if isMember();
+        allow create: if isMember()
+          && isValidId(activityId)
+          && request.resource.data.actorUid == request.auth.uid;
+        allow update, delete: if false;
+      }
+
+      // Subcollection or document for settings (e.g., budget)
+      match /settings/{settingId} {
+        allow read, write: if isMember() && isValidId(settingId) && canAccessSetting(settingId);
+      }
+    }
+
+    // Deny all other collections by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

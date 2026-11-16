@@ -1,0 +1,15 @@
+{
+  "name": "fina-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Uji browser dan rules Fina terhadap emulator Firebase. Dipisah agar instalasi aplikasi tetap ringan.",
+  "scripts": {
+    "test": "node run.mjs"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "firebase": "^12.19.0",
+    "firebase-tools": "^15.36.0",
+    "playwright": "^1.63.0"
+  }
+}

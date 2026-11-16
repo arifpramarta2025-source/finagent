@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FINA - Keuangan Pribadi</title>
+    <meta name="description" content="Asisten keuangan pribadi cerdas multimodal berbasis Gemini AI terinspirasi dari WPU FinAgent oleh Sandhika Galih. Dilengkapi OCR struk, pencatatan transaksi cerdas, dashboard visual, audit keuangan 50/30/20, dan chatbot agen finansial." />
+    <meta property="og:title" content="FINA - Keuangan Pribadi" />
+    <meta property="og:description" content="Asisten keuangan pribadi cerdas multimodal berbasis Gemini AI terinspirasi dari WPU FinAgent oleh Sandhika Galih. Dilengkapi OCR struk, pencatatan transaksi cerdas, dashboard visual, audit keuangan 50/30/20, dan chatbot agen finansial." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#059669" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="FINA" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <script>
+      // Runs before the first paint so the page never flashes the wrong theme.
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem('fina_theme');
+        } catch (e) {}
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (saved === null && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

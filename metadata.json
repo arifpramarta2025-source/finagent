@@ -1,0 +1,8 @@
+{
+  "name": "FINA - Keuangan Pribadi",
+  "description": "Asisten keuangan pribadi cerdas multimodal berbasis Gemini AI terinspirasi dari WPU FinAgent oleh Sandhika Galih. Dilengkapi OCR struk, pencatatan transaksi cerdas, dashboard visual, audit keuangan 50/30/20, dan chatbot agen finansial.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

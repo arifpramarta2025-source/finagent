@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="110" fill="url(#grad)"/>
+  <circle cx="256" cy="256" r="160" fill="white" opacity="0.12"/>
+  <path d="M160 210 C160 170, 352 170, 352 210 C352 245, 270 255, 256 280 C242 255, 160 245, 160 210 Z" fill="white"/>
+  <rect x="236" y="140" width="40" height="232" rx="20" fill="white"/>
+  <text x="256" y="440" font-family="system-ui, sans-serif" font-size="64" font-weight="900" fill="white" text-anchor="middle" letter-spacing="4">FINA</text>
+</svg>

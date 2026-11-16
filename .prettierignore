@@ -1,0 +1,17 @@
+# Generated or installed
+dist/
+node_modules/
+package-lock.json
+e2e/package-lock.json
+e2e/.out/
+public/
+
+# Managed by Google AI Studio; left exactly as it writes them
+firebase-applet-config.json
+firebase-blueprint.json
+metadata.json
+index.html
+
+# Templat AI Studio; dibiarkan agar deploy tidak terganggu
+tsconfig.json
+vite.config.ts

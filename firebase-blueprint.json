@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document storing basic account metadata",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "Email of the authorized user" },
+        "displayName": { "type": "string", "description": "Full name or display name" },
+        "photoURL": { "type": "string", "description": "Avatar URL" },
+        "lastLogin": { "type": "string", "description": "ISO timestamp of last login" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial ledger entry belonging to a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique transaction ID" },
+        "userId": { "type": "string", "description": "Owner user UID" },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Transaction direction" },
+        "amount": { "type": "number", "description": "Transaction amount in Rupiah" },
+        "category": { "type": "string", "description": "Spending or income category" },
+        "subCategory": { "type": "string", "description": "Optional specific category" },
+        "merchant": { "type": "string", "description": "Merchant or source" },
+        "date": { "type": "string", "description": "Transaction date YYYY-MM-DD" },
+        "paymentMethod": { "type": "string", "description": "Payment channel used" },
+        "notes": { "type": "string", "description": "Optional notes" },
+        "budgetClassification": { "type": "string", "enum": ["needs", "wants", "savings"], "description": "50/30/20 category" },
+        "createdAt": { "type": "string", "description": "ISO creation timestamp" }
+      },
+      "required": ["id", "userId", "type", "amount", "category", "merchant", "date", "paymentMethod", "budgetClassification"]
+    },
+    "BudgetSettings": {
+      "title": "BudgetSettings",
+      "description": "User personal budget targets and 50/30/20 ratio configuration",
+      "type": "object",
+      "properties": {
+        "monthlyIncomeTarget": { "type": "number", "description": "Target monthly income" },
+        "emergencyFundTarget": { "type": "number", "description": "Emergency fund goal" },
+        "currentEmergencyFund": { "type": "number", "description": "Current emergency fund balance" },
+        "needsPercentage": { "type": "number", "description": "Target needs percentage (default 50)" },
+        "wantsPercentage": { "type": "number", "description": "Target wants percentage (default 30)" },
+        "savingsPercentage": { "type": "number", "description": "Target savings percentage (default 20)" },
+        "updatedAt": { "type": "string", "description": "ISO update timestamp" }
+      },
+      "required": ["monthlyIncomeTarget", "emergencyFundTarget", "currentEmergencyFund"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile document restricted to the authorized owner"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Subcollection of personal financial transactions owned by the user"
+    },
+    "/users/{userId}/settings/budget": {
+      "schema": { "$ref": "#/entities/BudgetSettings" },
+      "description": "Personal budget target settings document owned by the user"
+    }
+  }
+}
